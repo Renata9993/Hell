@@ -2,35 +2,62 @@
 
 #include "Ship.h"
 
+#include <iostream>
+#include <fstream>
+#include <string>
+
 class Submarine : public Ship {
 private:
+    // Properties specific to submarines
+    std::string name;
     double length;
     double width;
     int crew;
     double timeUnderWater;
     double maxUnderwaterSpeed;
-    char* armament;
+    std::string armament;
     
 public:
-    Submarine(const char* _name, const char* _type, double _length, double _width, int _crew, double _timeUnderWater, double _maxUnderwaterSpeed, const char* _armament);
+    // Default constructor
+    Submarine();
 
-    ~Submarine() override;
+    // Constructor with parameters
+    Submarine(const std::string& name, double length, double width, int crew,
+              double timeUnderWater, double maxUnderwaterSpeed, const std::string& armament);
 
-    // Get functions
+    // Copy constructor
+    Submarine(const Submarine& other);
+
+    // Destructor
+    ~Submarine();
+    
+    // Getter functions
+    std::string getName() const;
     double getLength() const;
     double getWidth() const;
     int getCrew() const;
     double getTimeUnderWater() const;
     double getMaxUnderwaterSpeed() const;
-    const char* getArmament() const;
+    std::string getArmament() const;
+    
+    // Setter functions
+    void setName(const std::string& newName);
+    void setLength(double newLength);
+    void setWidth(double newWidth);
+    void setCrew(int newCrew);
+    void setTimeUnderWater(double newTimeUnderWater);
+    void setMaxUnderwaterSpeed(double newMaxUnderwaterSpeed);
+    void setArmament(const std::string& newArmament);
+    
+    // Display submarine information
+    void display() const override;
 
-    // Set functions
-    void setLength(double _length);
-    void setWidth(double _width);
-    void setCrew(int _crew);
-    void setTimeUnderWater(double _timeUnderWater);
-    void setMaxUnderwaterSpeed(double _maxUnderwaterSpeed);
-    void setArmament(const char* _armament);
+    // Input submarine details from the user
+    void input() override;
 
-    void displayInfo() const override;
+    // Save submarine details to a file
+    void save(std::ofstream& file) const override;
+
+    // Load submarine details from a file
+    void load(std::ifstream& file) override;
 };

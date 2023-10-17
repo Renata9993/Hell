@@ -2,34 +2,56 @@
 
 #include "Ship.h"
  
+#include <iostream>
+#include <fstream>
+#include <string>
+
 class Boat : public Ship {
 private:
-    char* purpose;
-    char* hullMaterial;
-    char* drivingCharacteristics;
+    // Properties specific to boats
+    std::string purpose;
+    std::string hullMaterial;
+    std::string drivingCharacteristics;
     double speed;
-    int maxCapacity;
+    int maxPassengers;
 
 public:
-    Boat(const char* _name, const char* _type, const char* _purpose,
-         const char* _hullMaterial, const char* _drivingCharacteristics,
-         double _speed, int _maxCapacity);
+    // Default constructor
+    Boat();
 
-    ~Boat() override;
-
-    // Get functions
-    const char* getPurpose() const;
-    const char* getHullMaterial() const;
-    const char* getDrivingCharacteristics() const;
-    double getSpeed() const;
-    int getMaxCapacity() const;
+    // Constructor with parameters
+    Boat(const std::string& purpose, const std::string& hullMaterial, 
+         const std::string& drivingCharacteristics, double speed, int maxPassengers);
     
-    // Set functions
-    void setPurpose(const char* _purpose);
-    void setHullMaterial(const char* _hullMaterial);
-    void setDrivingCharacteristics(const char* _drivingCharacteristics);
-    void setSpeed(double _speed);
-    void setMaxCapacity(int _maxCapacity);
+    // Copy constructor
+    Boat(const Boat& other);
 
-    void displayInfo() const override;
+    // Destructor
+    ~Boat();
+    
+    // Getter functions
+    std::string getPurpose() const;
+    std::string getHullMaterial() const;
+    std::string getDrivingCharacteristics() const;
+    double getSpeed() const;
+    int getMaxPassengers() const;
+
+    // Setter functions
+    void setPurpose(const std::string& newPurpose);
+    void setHullMaterial(const std::string& newHullMaterial);
+    void setDrivingCharacteristics(const std::string& newDrivingCharacteristics);
+    void setSpeed(double newSpeed);
+    void setMaxPassengers(int newMaxPassengers);
+
+    // Display boat information
+    void display() const override;
+
+    // Input boat details from the user
+    void input() override;
+
+    // Save boat details to a file
+    void save(std::ofstream& file) const override;
+
+    // Load boat details from a file
+    void load(std::ifstream& file) override;
 };
