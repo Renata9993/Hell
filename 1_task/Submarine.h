@@ -54,6 +54,9 @@ public:
 
     // Input submarine details from the user
     void input() override;
+    
+    // Change submarine data
+    void edit() override;
 
     // Save submarine details to a file
     void save(std::ofstream& file) const override;

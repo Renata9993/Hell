@@ -120,6 +120,105 @@ void Sailboat::input() {
     std::cin >> crew;
 }
 
+// Change Sailboat data
+void Sailboat::edit() {
+    std::cout << "Current Sailboat details:" << std::endl;
+    display();
+
+    std::cout << "Select the data to change:" << std::endl;
+    std::cout << "1. Type" << std::endl;
+    std::cout << "2. Name" << std::endl;
+    std::cout << "3. Purpose" << std::endl;
+    std::cout << "4. Hull Length" << std::endl;
+    std::cout << "5. Speed" << std::endl;
+    std::cout << "6. Crew" << std::endl;
+    std::cout << "0. Cancel" << std::endl;
+    std::cout << "Enter your choice: ";
+
+    int choice;
+    if (!(std::cin >> choice)) {
+        std::cin.clear();
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        std::cerr << "Invalid choice. Please enter a number." << std::endl;
+        return;
+    }
+
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Clear any remaining newline characters
+
+    switch (choice) {
+        case 1: {
+            std::string newType;
+            std::cout << "Enter the new type: ";
+            std::getline(std::cin, newType);
+            setType(newType);
+            std::cout << "Type changed to: " << newType << std::endl;
+            break;
+        }
+        case 2: {
+            std::string newName;
+            std::cout << "Enter the new name: ";
+            std::getline(std::cin, newName);
+            setName(newName);
+            std::cout << "Name changed to: " << newName << std::endl;
+            break;
+        }
+        case 3: {
+            std::string newPurpose;
+            std::cout << "Enter the new purpose: ";
+            std::getline(std::cin, newPurpose);
+            setPurpose(newPurpose);
+            std::cout << "Purpose changed to: " << newPurpose << std::endl;
+            break;
+        }
+        case 4: {
+            double newHullLength;
+            std::cout << "Enter the new hull length: ";
+            if (!(std::cin >> newHullLength)) {
+                std::cin.clear();
+                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                std::cerr << "Invalid hull length. Please enter a valid number." << std::endl;
+            } else {
+                setHullLength(newHullLength);
+                std::cout << "Hull Length changed to: " << newHullLength << std::endl;
+            }
+            break;
+        }
+        case 5: {
+            double newSpeed;
+            std::cout << "Enter the new speed: ";
+            if (!(std::cin >> newSpeed)) {
+                std::cin.clear();
+                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                std::cerr << "Invalid speed. Please enter a valid number." << std::endl;
+            } else {
+                setSpeed(newSpeed);
+                std::cout << "Speed changed to: " << newSpeed << std::endl;
+            }
+            break;
+        }
+        case 6: {
+            int newCrew;
+            std::cout << "Enter the new crew size: ";
+            if (!(std::cin >> newCrew)) {
+                std::cin.clear();
+                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                std::cerr << "Invalid crew size. Please enter a valid number." << std::endl;
+            } else {
+                setCrew(newCrew);
+                std::cout << "Crew size changed to: " << newCrew << std::endl;
+            }
+            break;
+        }
+        case 0: {
+            std::cout << "Modification canceled." << std::endl;
+            break;
+        }
+        default: {
+            std::cerr << "Invalid choice. Please try again." << std::endl;
+        }
+    }
+}
+
 // Save sailboat details to a file
 void Sailboat::save(std::ofstream& file) const {
     if (file.is_open()) {

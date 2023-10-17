@@ -73,6 +73,14 @@ void Keeper::removeShip(const int index) {
     }
 }
 
+void Keeper::editShip(const int index) {
+    if (index >= 0 && index < shipCount) {
+        ships[index]->edit();
+    } else {
+        std::cerr << "Invalid index, cannot remove ship." << std::endl;
+    }
+}
+
 void Keeper::saveToFile(const std::string& filename) {
     std::ofstream file;
     file.exceptions(std::ios::failbit | std::ios::badbit);
@@ -93,6 +101,7 @@ void Keeper::loadFromFile(const std::string& filename) {
     file.exceptions(std::ios::failbit | std::ios::badbit);
     try {
         file.open(filename, std::ios::binary);
+
         while (!file.eof()) {
             std::string shipType;
             file >> shipType;

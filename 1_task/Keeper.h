@@ -26,6 +26,7 @@ public:
     
     void addShip(Ship* newShip);
     void removeShip(const int index);
+    void editShip(const int index);
     
     void saveToFile(const std::string& filename);
     void loadFromFile(const std::string& filename);

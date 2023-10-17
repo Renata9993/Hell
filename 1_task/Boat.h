@@ -48,6 +48,9 @@ public:
 
     // Input boat details from the user
     void input() override;
+    
+    // Change boat data
+    void edit() override;
 
     // Save boat details to a file
     void save(std::ofstream& file) const override;

@@ -13,9 +13,10 @@ void App::mainTask() {
         std::cout << "1. Add a ship" << std::endl;
         std::cout << "2. Remove a ship" << std::endl;
         std::cout << "3. Display all ships" << std::endl;
-        std::cout << "4. Save to file" << std::endl;
-        std::cout << "5. Load from file" << std::endl;
-        std::cout << "6. Exit" << std::endl;
+        std::cout << "4. Change parameters" << std::endl;
+        std::cout << "5. Save to file" << std::endl;
+        std::cout << "6. Load from file" << std::endl;
+        std::cout << "7. Exit" << std::endl;
         std::cout << "Enter your choice: ";
         
         if (!(std::cin >> choice)) {
@@ -71,6 +72,19 @@ void App::mainTask() {
                 break;
             }
             case 4: {
+                // Change parameters of a ship
+                int index;
+                std::cout << "Enter the index of the ship to be changed: ";
+                if (!(std::cin >> index)) {
+                    std::cin.clear();
+                    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                    std::cout << "Invalid index. Please enter a number." << std::endl;
+                    continue; // Restart the loop
+                }
+                keeper.editShip(index);
+                break;
+            }
+            case 5: {
                 // Save to file
                 std::string filename;
                 std::cout << "Enter the filename to save to: ";
@@ -88,7 +102,7 @@ void App::mainTask() {
                 }
                 break;
             }
-            case 5: {
+            case 6: {
                 // Load from file
                 std::cout << "Enter the filename to load from: ";
                 if (!(std::cin >> filename)) {
@@ -105,7 +119,7 @@ void App::mainTask() {
                 }
                 break;
             }
-            case 6: {
+            case 7: {
                 return;
             }
             default: {
