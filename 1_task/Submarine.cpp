@@ -115,19 +115,75 @@ void Submarine::display() const {
 // Input submarine details from the user
 void Submarine::input() {
     std::cout << "Enter Length (meters): ";
-    std::cin >> length;
+    double newLength;
+    while (true) {
+        if (std::cin >> newLength) {
+            setLength(newLength);
+            break;
+        } else {
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            std::cerr << "Invalid length. Please enter a double number." << std::endl;
+        }
+    }
+
     std::cout << "Enter Width (meters): ";
-    std::cin >> width;
+    double newWidth;
+    while (true) {
+        if (std::cin >> newWidth) {
+            setWidth(newWidth);
+            break;
+        } else {
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            std::cerr << "Invalid width. Please enter a double number." << std::endl;
+        }
+    }
+
     std::cout << "Enter Crew: ";
-    std::cin >> crew;
+    int newCrew;
+    while (true) {
+        if (std::cin >> newCrew) {
+            setCrew(newCrew);
+            break;
+        } else {
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            std::cerr << "Invalid crew. Please enter an integer." << std::endl;
+        }
+    }
+
     std::cout << "Enter Time Under Water (hours): ";
-    std::cin >> timeUnderWater;
+    double newTimeUnderWater;
+    while (true) {
+        if (std::cin >> newTimeUnderWater) {
+            setTimeUnderWater(newTimeUnderWater);
+            break;
+        } else {
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            std::cerr << "Invalid time under water. Please enter a double number." << std::endl;
+        }
+    }
+
     std::cout << "Enter Max Underwater Speed (knots): ";
-    std::cin >> maxUnderwaterSpeed;
-    std::cin.ignore();
+    double newMaxUnderwaterSpeed;
+    while (true) {
+        if (std::cin >> newMaxUnderwaterSpeed) {
+            setMaxUnderwaterSpeed(newMaxUnderwaterSpeed);
+            break;
+        } else {
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            std::cerr << "Invalid max underwater speed. Please enter a double number." << std::endl;
+        }
+    }
+
     std::cout << "Enter Armament: ";
+    std::cin.ignore(); // Clear any remaining newline characters
     std::getline(std::cin, armament);
 }
+
 
 // Change submarine data
 void Submarine::edit() {
@@ -155,7 +211,7 @@ void Submarine::edit() {
     
     std::cout << "Enter the new value: ";
     std::string change;
-    std::cin >> change;
+    std::getline(std::cin, change);
 
     switch (choice) {
         case 1: {

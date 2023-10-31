@@ -116,17 +116,53 @@ void Sailboat::display() const {
 // Input sailboat details from the user
 void Sailboat::input() {
     std::cout << "Enter Sailboat Type: ";
-    std::cin >> type;
+    std::cin.ignore(); // Clear any remaining newline characters
+    std::getline(std::cin, type);
+
     std::cout << "Enter Sailboat Name: ";
-    std::cin >> name;
+    std::getline(std::cin, name);
+
     std::cout << "Enter Sailboat Purpose: ";
-    std::cin >> purpose;
-    std::cout << "Enter Hull Length: ";
-    std::cin >> hullLength;
-    std::cout << "Enter Speed: ";
-    std::cin >> speed;
-    std::cout << "Enter Crew: ";
-    std::cin >> crew;
+    std::getline(std::cin, purpose);
+    
+    double newHullLength;
+    while (true) {
+        std::cout << "Enter Hull Length: ";
+        if (std::cin >> newHullLength) {
+            setHullLength(newHullLength);
+            break;
+        } else {
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            std::cerr << "Invalid hull length. Please enter a double number." << std::endl;
+        }
+    }
+
+    double newSpeed;
+    while (true) {
+        std::cout << "Enter Speed: ";
+        if (std::cin >> newSpeed) {
+            setSpeed(newSpeed);
+            break;
+        } else {
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            std::cerr << "Invalid speed. Please enter a double number." << std::endl;
+        }
+    }
+
+    int newCrew;
+    while (true) {
+        std::cout << "Enter Crew: ";
+        if (std::cin >> newCrew) {
+            setCrew(newCrew);
+            break;
+        } else {
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            std::cerr << "Invalid crew. Please enter a valid integer." << std::endl;
+        }
+    }
 }
 
 // Change Sailboat data
@@ -156,7 +192,7 @@ void Sailboat::edit() {
     
     std::cout << "Enter the new value: ";
     std::string change;
-    std::cin >> change;
+    std::getline(std::cin, change);
     
     switch (choice) {
         case 1: {

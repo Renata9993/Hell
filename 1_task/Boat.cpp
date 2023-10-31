@@ -103,15 +103,40 @@ void Boat::display() const {
 // Input boat details from the user
 void Boat::input() {
     std::cout << "Enter Boat Purpose: ";
-    std::cin >> purpose;
+    std::cin.ignore(); // Clear any remaining newline characters
+    std::getline(std::cin, purpose);
+
     std::cout << "Enter Hull Material: ";
-    std::cin >> hullMaterial;
+    std::getline(std::cin, hullMaterial);
+
     std::cout << "Enter Driving Characteristics: ";
-    std::cin >> drivingCharacteristics;
-    std::cout << "Enter Speed (in knots): ";
-    std::cin >> speed;
-    std::cout << "Enter Maximum Passengers: ";
-    std::cin >> maxPassengers;
+    std::getline(std::cin, drivingCharacteristics);
+    
+    double newSpeed;
+    while (true) {
+        std::cout << "Enter Speed (in knots): ";
+        if (std::cin >> newSpeed) {
+            setSpeed(newSpeed);
+            break;
+        } else {
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            std::cerr << "Invalid speed. Please enter a double number." << std::endl;
+        }
+    }
+    
+    int newMaxPassengers;
+    while (true) {
+        std::cout << "Enter Maximum Passengers: ";
+        if (std::cin >> newMaxPassengers) {
+            setMaxPassengers(newMaxPassengers);
+            break;
+        } else {
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            std::cerr << "Invalid speed. Please enter an integer." << std::endl;
+        }
+    }
 }
 
 // Change boat data
@@ -139,8 +164,8 @@ void Boat::edit() {
 
     std::cout << "Enter the new value: ";
     std::string change;
-    std::cin >> change;
-    
+    std::getline(std::cin, change);
+
     switch (choice) {
         case 1: {
             setPurpose(change);
