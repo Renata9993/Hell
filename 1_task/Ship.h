@@ -7,12 +7,12 @@
 class Ship {
 public:
     // Default constructor
-    //Ship() { std::cout << "Base Ship constructor called." << std::endl; }
-    Ship() = default;
+    Ship() { std::cout << "Base Ship constructor called." << std::endl; }
     
     // Virtual destructor
-    //virtual ~Ship() { std::cout << "Base Ship destructor called." << std::endl; }
-    virtual ~Ship() = default;
+    virtual ~Ship() { std::cout << "Base Ship destructor called." << std::endl; }
+    
+    virtual bool operator==(const Ship& ship) const = 0;
     
     virtual void display() const = 0;
     virtual void input() = 0;

@@ -77,13 +77,34 @@ void Keeper::editShip(const int index) {
     if (index >= 0 && index < shipCount) {
         ships[index]->edit();
     } else {
-        std::cerr << "Invalid index, cannot remove ship." << std::endl;
+        std::cerr << "Invalid index, cannot edit the ship." << std::endl;
+    }
+}
+
+void Keeper::compare(const int index1, const int index2) {
+    if (index1 < 0 || index2 < 0) {
+        std::cerr << "Index cannot be less than 0" << std::endl;
+    } else if (index1 >= shipCount || index2 >= shipCount) {
+        std::cerr << "Index cannot be greater than the number of ships" << std::endl;
+    } else {
+        if ((dynamic_cast<Boat*>(getShip(index1))) && (dynamic_cast<Boat*>(getShip(index2)))) {
+            std::cout << "Ships are " << ((dynamic_cast<Boat*>(getShip(index1))) ==
+                                          (dynamic_cast<Boat*>(getShip(index2))) ? "" : "not ") << "equal." << std::endl;
+        } else if ((dynamic_cast<Submarine*>(getShip(index1))) && (dynamic_cast<Submarine*>(getShip(index2)))) {
+            std::cout << "Ships are " << ((dynamic_cast<Submarine*>(getShip(index1))) ==
+                                          (dynamic_cast<Submarine*>(getShip(index2))) ? "" : "not ") << "equal." << std::endl;
+        } else if ((dynamic_cast<Sailboat*>(getShip(index1))) && (dynamic_cast<Sailboat*>(getShip(index2)))) {
+            std::cout << "Ships are " << ((dynamic_cast<Sailboat*>(getShip(index1))) ==
+                                          (dynamic_cast<Sailboat*>(getShip(index2))) ? "" : "not ") << "equal." << std::endl;
+        } else {
+            std::cout << "Ships cannot be compared." << std::endl;
+        }
     }
 }
 
 void Keeper::saveToFile(const std::string& filename) {
     std::ofstream file;
-    file.exceptions(std::ios::failbit | std::ios::badbit);
+//    file.exceptions(std::ios::failbit | std::ios::badbit);
     try {
         file.open(filename, std::ios::binary);
         for (int i = 0; i < shipCount; ++i) {
@@ -98,13 +119,11 @@ void Keeper::saveToFile(const std::string& filename) {
 
 void Keeper::loadFromFile(const std::string& filename) {
     std::ifstream file;
-    file.exceptions(std::ios::failbit | std::ios::badbit);
     try {
         file.open(filename, std::ios::binary);
 
-        while (!file.eof()) {
-            std::string shipType;
-            file >> shipType;
+        std::string shipType;
+        while (file >> shipType) {
             file.ignore();
             Ship* newShip = nullptr;
 

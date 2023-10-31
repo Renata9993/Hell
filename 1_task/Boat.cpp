@@ -81,6 +81,15 @@ void Boat::setMaxPassengers(int newMaxPassengers) {
     maxPassengers = newMaxPassengers;
 }
 
+bool Boat::operator==(const Ship& ship) const {
+    if (dynamic_cast<const Boat*>(&ship)) {
+        const Boat& boat = dynamic_cast<const Boat&>(ship);
+        return purpose == boat.purpose && hullMaterial == boat.hullMaterial && speed == boat.speed &&
+            drivingCharacteristics == boat.drivingCharacteristics && maxPassengers == boat.maxPassengers;
+    }
+    return false;
+}
+
 // Display boat information
 void Boat::display() const {
     std::cout << "\n----Boat----" << std::endl;
@@ -122,61 +131,61 @@ void Boat::edit() {
     int choice;
     if (!(std::cin >> choice)) {
         std::cin.clear();
-        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         std::cerr << "Invalid choice. Please enter a number." << std::endl;
         return;
     }
 
     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Clear any remaining newline characters
 
+    std::cout << "Enter the new value: ";
+    std::string change;
+    std::cin >> change;
+    
     switch (choice) {
         case 1: {
-            std::string newPurpose;
-            std::cout << "Enter the new purpose: ";
-            std::getline(std::cin, newPurpose);
-            setPurpose(newPurpose);
-            std::cout << "Purpose changed to: " << newPurpose << std::endl;
+            setPurpose(change);
+            std::cout << "Purpose changed to: " << change << std::endl;
             break;
         }
         case 2: {
-            std::string newHullMaterial;
-            std::cout << "Enter the new hull material: ";
-            std::getline(std::cin, newHullMaterial);
-            setHullMaterial(newHullMaterial);
-            std::cout << "Hull Material changed to: " << newHullMaterial << std::endl;
+            setHullMaterial(change);
+            std::cout << "Hull Material changed to: " << change << std::endl;
             break;
         }
         case 3: {
-            std::string newDrivingCharacteristics;
-            std::cout << "Enter the new driving characteristics: ";
-            std::getline(std::cin, newDrivingCharacteristics);
-            setDrivingCharacteristics(newDrivingCharacteristics);
-            std::cout << "Driving Characteristics changed to: " << newDrivingCharacteristics << std::endl;
+            setDrivingCharacteristics(change);
+            std::cout << "Driving Characteristics changed to: " << change << std::endl;
             break;
         }
         case 4: {
             double newSpeed;
-            std::cout << "Enter the new speed: ";
-            if (!(std::cin >> newSpeed)) {
+            try {
+                newSpeed = stod(change);
+                if (newSpeed >= 0) {
+                    setSpeed(newSpeed);
+                    std::cout << "Speed changed to: " << newSpeed << std::endl;
+                } else {
+                    std::cerr << "Value cannot be less than 0." << std::endl;
+                }
+            } catch (const std::invalid_argument& e) {
+                std::cerr << "Please enter a double value." << std::endl;
                 std::cin.clear();
-                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-                std::cerr << "Invalid speed. Please enter a valid number." << std::endl;
-            } else {
-                setSpeed(newSpeed);
-                std::cout << "Speed changed to: " << newSpeed << std::endl;
             }
             break;
         }
         case 5: {
             int newMaxPassengers;
-            std::cout << "Enter the new max passengers: ";
-            if (!(std::cin >> newMaxPassengers)) {
+            try {
+                newMaxPassengers = stoi(change);
+                if (newMaxPassengers >= 0) {
+                    setMaxPassengers(newMaxPassengers);
+                    std::cout << "Max Passengers changed to: " << newMaxPassengers << std::endl;
+                } else {
+                    std::cerr << "Value cannot be less than 0." << std::endl;
+                }
+            } catch (const std::invalid_argument& e) {
+                std::cerr << "Please enter an integer value." << std::endl;
                 std::cin.clear();
-                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-                std::cerr << "Invalid max passengers. Please enter a valid number." << std::endl;
-            } else {
-                setMaxPassengers(newMaxPassengers);
-                std::cout << "Max Passengers changed to: " << newMaxPassengers << std::endl;
             }
             break;
         }

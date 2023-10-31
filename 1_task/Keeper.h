@@ -28,6 +28,8 @@ public:
     void removeShip(const int index);
     void editShip(const int index);
     
+    void compare(const int index1, const int index2);
+    
     void saveToFile(const std::string& filename);
     void loadFromFile(const std::string& filename);
 };

@@ -45,6 +45,8 @@ public:
     void setHullLength(double newHullLength);
     void setSpeed(double newSpeed);
     void setCrew(int newCrew);
+    
+    bool operator==(const Ship& ship) const override;
 
     // Display sailboat information
     void display() const override;

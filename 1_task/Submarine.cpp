@@ -2,8 +2,7 @@
 
 // Default constructor
 Submarine::Submarine()
-    : name("None"),
-      length(0.0),
+    : length(0.0),
       width(0.0),
       crew(0),
       timeUnderWater(0.0),
@@ -14,10 +13,9 @@ Submarine::Submarine()
 }
 
 // Constructor with parameters
-Submarine::Submarine(const std::string& name, double length, double width, int crew,
+Submarine::Submarine(double length, double width, int crew,
                      double timeUnderWater, double maxUnderwaterSpeed, const std::string& armament)
-    : name(name),
-      length(length),
+    : length(length),
       width(width),
       crew(crew),
       timeUnderWater(timeUnderWater),
@@ -29,8 +27,7 @@ Submarine::Submarine(const std::string& name, double length, double width, int c
 
 // Copy constructor
 Submarine::Submarine(const Submarine& other)
-    : name(other.name),
-      length(other.length),
+    : length(other.length),
       width(other.width),
       crew(other.crew),
       timeUnderWater(other.timeUnderWater),
@@ -46,10 +43,6 @@ Submarine::~Submarine() {
 }
 
 // Getter functions
-std::string Submarine::getName() const {
-    return name;
-}
-
 double Submarine::getLength() const {
     return length;
 }
@@ -75,10 +68,6 @@ std::string Submarine::getArmament() const {
 }
 
 // Setter functions
-void Submarine::setName(const std::string& newName) {
-    name = newName;
-}
-
 void Submarine::setLength(double newLength) {
     length = newLength;
 }
@@ -103,10 +92,18 @@ void Submarine::setArmament(const std::string& newArmament) {
     armament = newArmament;
 }
 
+bool Submarine::operator==(const Ship& ship) const {
+    if (dynamic_cast<const Submarine*>(&ship)) {
+        const Submarine& submarine = dynamic_cast<const Submarine&>(ship);
+        return length == submarine.length && width == submarine.width && armament == submarine.armament &&
+            crew == submarine.crew && maxUnderwaterSpeed == submarine.maxUnderwaterSpeed && timeUnderWater == submarine.timeUnderWater;
+    }
+    return false;
+}
+
 // Display submarine information
 void Submarine::display() const {
     std::cout << "\n----Submarine----" << std::endl;
-    std::cout << "Submarine Name: " << name << std::endl;
     std::cout << "Length (meters): " << length << std::endl;
     std::cout << "Width (meters): " << width << std::endl;
     std::cout << "Crew: " << crew << std::endl;
@@ -117,9 +114,6 @@ void Submarine::display() const {
 
 // Input submarine details from the user
 void Submarine::input() {
-    std::cout << "Enter Submarine Name: ";
-    std::cin.ignore();
-    std::getline(std::cin, name);
     std::cout << "Enter Length (meters): ";
     std::cin >> length;
     std::cout << "Enter Width (meters): ";
@@ -141,107 +135,112 @@ void Submarine::edit() {
     display();
     
     std::cout << "Select the data to change:" << std::endl;
-    std::cout << "1. Name" << std::endl;
-    std::cout << "2. Length" << std::endl;
-    std::cout << "3. Width" << std::endl;
-    std::cout << "4. Crew" << std::endl;
-    std::cout << "5. Time Under Water" << std::endl;
-    std::cout << "6. Max Underwater Speed" << std::endl;
-    std::cout << "7. Armament" << std::endl;
+    std::cout << "1. Length" << std::endl;
+    std::cout << "2. Width" << std::endl;
+    std::cout << "3. Crew" << std::endl;
+    std::cout << "4. Time Under Water" << std::endl;
+    std::cout << "5. Max Underwater Speed" << std::endl;
+    std::cout << "6. Armament" << std::endl;
     std::cout << "0. Cancel" << std::endl;
     std::cout << "Enter your choice: ";
     
     int choice;
     if (!(std::cin >> choice)) {
         std::cin.clear();
-        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         std::cerr << "Invalid choice. Please enter a number." << std::endl;
         return;
     }
     
     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Clear any remaining newline characters
+    
+    std::cout << "Enter the new value: ";
+    std::string change;
+    std::cin >> change;
 
     switch (choice) {
         case 1: {
-            std::string newName;
-            std::cout << "Enter the new name: ";
-            std::getline(std::cin, newName);
-            setName(newName);
-            std::cout << "Name changed to: " << newName << std::endl;
+            double newLength;
+            try {
+                newLength = stod(change);
+                if (newLength >= 0) {
+                    setLength(newLength);
+                    std::cout << "Length changed to: " << newLength << std::endl;
+                } else {
+                    std::cerr << "Value cannot be less than 0." << std::endl;
+                }
+            } catch (const std::invalid_argument& e) {
+                std::cerr << "Please enter a double value." << std::endl;
+                std::cin.clear();
+            }
             break;
         }
         case 2: {
-            double newLength;
-            std::cout << "Enter the new length: ";
-            if (!(std::cin >> newLength)) {
+            double newWidth;
+            try {
+                newWidth = stod(change);
+                if (newWidth >= 0) {
+                    setWidth(newWidth);
+                    std::cout << "Width changed to: " << newWidth << std::endl;
+                } else {
+                    std::cerr << "Value cannot be less than 0." << std::endl;
+                }
+            } catch (const std::invalid_argument& e) {
+                std::cerr << "Please enter a double value." << std::endl;
                 std::cin.clear();
-                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-                std::cerr << "Invalid length. Please enter a valid number." << std::endl;
-            } else {
-                setLength(newLength);
-                std::cout << "Length changed to: " << newLength << std::endl;
             }
             break;
         }
         case 3: {
-            double newWidth;
-            std::cout << "Enter the new width: ";
-            if (!(std::cin >> newWidth)) {
+            int newCrew;
+            try {
+                newCrew = stoi(change);
+                if (newCrew >= 0) {
+                    setCrew(newCrew);
+                    std::cout << "Crew size changed to: " << newCrew << std::endl;
+                } else {
+                    std::cerr << "Value cannot be less than 0." << std::endl;
+                }
+            } catch (const std::invalid_argument& e) {
+                std::cerr << "Please enter an integer value." << std::endl;
                 std::cin.clear();
-                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-                std::cerr << "Invalid width. Please enter a valid number." << std::endl;
-            } else {
-                setWidth(newWidth);
-                std::cout << "Width changed to: " << newWidth << std::endl;
             }
             break;
         }
         case 4: {
-            int newCrew;
-            std::cout << "Enter the new crew size: ";
-            if (!(std::cin >> newCrew)) {
+            double newTimeUnderWater;
+            try {
+                newTimeUnderWater = stod(change);
+                if (newTimeUnderWater >= 0) {
+                    setTimeUnderWater(newTimeUnderWater);
+                    std::cout << "Time under water changed to: " << newTimeUnderWater << std::endl;
+                } else {
+                    std::cerr << "Value cannot be less than 0." << std::endl;
+                }
+            } catch (const std::invalid_argument& e) {
+                std::cerr << "Please enter a double value." << std::endl;
                 std::cin.clear();
-                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-                std::cerr << "Invalid crew size. Please enter a valid number." << std::endl;
-            } else {
-                setCrew(newCrew);
-                std::cout << "Crew size changed to: " << newCrew << std::endl;
             }
             break;
         }
         case 5: {
-            double newTimeUnderWater;
-            std::cout << "Enter the new time under water: ";
-            if (!(std::cin >> newTimeUnderWater)) {
+            double newMaxUnderwaterSpeed;
+            try {
+                newMaxUnderwaterSpeed = stod(change);
+                if (newMaxUnderwaterSpeed >= 0) {
+                    setMaxUnderwaterSpeed(newMaxUnderwaterSpeed);
+                    std::cout << "Max underwater speed changed to: " << newMaxUnderwaterSpeed << std::endl;
+                } else {
+                    std::cerr << "Value cannot be less than 0." << std::endl;
+                }
+            } catch (const std::invalid_argument& e) {
+                std::cerr << "Please enter a double value." << std::endl;
                 std::cin.clear();
-                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-                std::cerr << "Invalid time under water. Please enter a valid number." << std::endl;
-            } else {
-                setTimeUnderWater(newTimeUnderWater);
-                std::cout << "Time under water changed to: " << newTimeUnderWater << std::endl;
             }
             break;
         }
         case 6: {
-            double newMaxUnderwaterSpeed;
-            std::cout << "Enter the new max underwater speed: ";
-            if (!(std::cin >> newMaxUnderwaterSpeed)) {
-                std::cin.clear();
-                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-                std::cerr << "Invalid max underwater speed. Please enter a valid number." << std::endl;
-            } else {
-                setMaxUnderwaterSpeed(newMaxUnderwaterSpeed);
-                std::cout << "Max underwater speed changed to: " << newMaxUnderwaterSpeed << std::endl;
-            }
-            break;
-        }
-        case 7: {
-            std::string newArmament;
-            std::cout << "Enter the new armament: ";
-            std::cin.ignore(); // Clear newline character
-            std::getline(std::cin, newArmament);
-            setArmament(newArmament);
-            std::cout << "Armament changed to: " << newArmament << std::endl;
+            setArmament(change);
+            std::cout << "Armament changed to: " << change << std::endl;
             break;
         }
         case 0: {
@@ -257,7 +256,7 @@ void Submarine::edit() {
 // Save submarine details to a file
 void Submarine::save(std::ofstream& file) const {
     if (file.is_open()) {
-        file << "Submarine " << name << " " << length << " " << width << " " << crew << " " << timeUnderWater << " " << maxUnderwaterSpeed << " " << armament << std::endl;
+        file << "Submarine " << length << " " << width << " " << crew << " " << timeUnderWater << " " << maxUnderwaterSpeed << " " << armament << std::endl;
         std::cout << "Submarine data saved." << std::endl;
     } else {
         std::cerr << "Failed to save Submarine data." << std::endl;
@@ -267,7 +266,7 @@ void Submarine::save(std::ofstream& file) const {
 // Load submarine details from a file
 void Submarine::load(std::ifstream& file) {
     if (file.is_open()) {
-        file >> name >> length >> width >> crew >> timeUnderWater >> maxUnderwaterSpeed >> armament;
+        file >> length >> width >> crew >> timeUnderWater >> maxUnderwaterSpeed >> armament;
         std::cout << "Submarine data loaded." << std::endl;
     } else {
         std::cerr << "Failed to load submarine data." << std::endl;

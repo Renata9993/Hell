@@ -42,6 +42,8 @@ public:
     void setDrivingCharacteristics(const std::string& newDrivingCharacteristics);
     void setSpeed(double newSpeed);
     void setMaxPassengers(int newMaxPassengers);
+    
+    bool operator==(const Ship& ship) const override;
 
     // Display boat information
     void display() const override;

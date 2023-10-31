@@ -9,7 +9,6 @@
 class Submarine : public Ship {
 private:
     // Properties specific to submarines
-    std::string name;
     double length;
     double width;
     int crew;
@@ -22,7 +21,7 @@ public:
     Submarine();
 
     // Constructor with parameters
-    Submarine(const std::string& name, double length, double width, int crew,
+    Submarine(double length, double width, int crew,
               double timeUnderWater, double maxUnderwaterSpeed, const std::string& armament);
 
     // Copy constructor
@@ -32,7 +31,6 @@ public:
     ~Submarine();
     
     // Getter functions
-    std::string getName() const;
     double getLength() const;
     double getWidth() const;
     int getCrew() const;
@@ -41,13 +39,14 @@ public:
     std::string getArmament() const;
     
     // Setter functions
-    void setName(const std::string& newName);
     void setLength(double newLength);
     void setWidth(double newWidth);
     void setCrew(int newCrew);
     void setTimeUnderWater(double newTimeUnderWater);
     void setMaxUnderwaterSpeed(double newMaxUnderwaterSpeed);
     void setArmament(const std::string& newArmament);
+    
+    bool operator==(const Ship& ship) const override;
     
     // Display submarine information
     void display() const override;

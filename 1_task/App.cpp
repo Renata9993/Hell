@@ -8,21 +8,22 @@ void App::mainTask() {
     int choice;
 
     while (true) {
-        std::cout << std::endl;
-        std::cout << "Menu:" << std::endl;
-        std::cout << "1. Add a ship" << std::endl;
-        std::cout << "2. Remove a ship" << std::endl;
-        std::cout << "3. Display all ships" << std::endl;
-        std::cout << "4. Change parameters" << std::endl;
-        std::cout << "5. Save to file" << std::endl;
-        std::cout << "6. Load from file" << std::endl;
-        std::cout << "7. Exit" << std::endl;
-        std::cout << "Enter your choice: ";
+        cout << endl;
+        cout << "Menu:" << endl;
+        cout << "1. Add a ship" << endl;
+        cout << "2. Remove a ship" << endl;
+        cout << "3. Display all ships" << endl;
+        cout << "4. Change parameters" << endl;
+        cout << "5. Save to file" << endl;
+        cout << "6. Load from file" << endl;
+        cout << "7. Compare two ships" << endl;
+        cout << "8. Exit" << endl;
+        cout << "Enter your choice: ";
         
-        if (!(std::cin >> choice)) {
-            std::cin.clear(); // Clear error flags
-            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Discard the invalid input
-            std::cout << "Invalid choice. Please enter a number." << std::endl;
+        if (!(cin >> choice)) {
+            cin.clear(); // Clear error flags
+            cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Discard the invalid input
+            cout << "Invalid choice. Please enter a number." << endl;
             continue; // Restart the loop
         }
 
@@ -30,11 +31,11 @@ void App::mainTask() {
             case 1: {
                 // Add a ship
                 int shipType;
-                std::cout << "Enter ship type (1: Submarine, 2: Sailboat, 3: Boat): ";
-                if (!(std::cin >> shipType)) {
-                    std::cin.clear();
-                    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-                    std::cout << "Invalid ship type. Please enter a number." << std::endl;
+                cout << "Enter ship type (1: Submarine, 2: Sailboat, 3: Boat): ";
+                if (!(cin >> shipType)) {
+                    cin.clear();
+                    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                    cout << "Invalid ship type. Please enter a number." << endl;
                     continue; // Restart the loop
                 }
                 
@@ -54,11 +55,11 @@ void App::mainTask() {
             case 2: {
                 // Remove a ship
                 int index;
-                std::cout << "Enter the index of the ship to remove: ";
-                if (!(std::cin >> index)) {
-                    std::cin.clear();
-                    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-                    std::cout << "Invalid index. Please enter a number." << std::endl;
+                cout << "Enter the index of the ship to remove: ";
+                if (!(cin >> index)) {
+                    cin.clear();
+                    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                    cout << "Invalid index. Please enter a number." << endl;
                     continue; // Restart the loop
                 }
                 keeper.removeShip(index);
@@ -74,11 +75,11 @@ void App::mainTask() {
             case 4: {
                 // Change parameters of a ship
                 int index;
-                std::cout << "Enter the index of the ship to be changed: ";
-                if (!(std::cin >> index)) {
-                    std::cin.clear();
-                    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-                    std::cout << "Invalid index. Please enter a number." << std::endl;
+                cout << "Enter the index of the ship to be changed: ";
+                if (!(cin >> index)) {
+                    cin.clear();
+                    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                    cout << "Invalid index. Please enter a number." << endl;
                     continue; // Restart the loop
                 }
                 keeper.editShip(index);
@@ -86,44 +87,62 @@ void App::mainTask() {
             }
             case 5: {
                 // Save to file
-                std::string filename;
-                std::cout << "Enter the filename to save to: ";
-                if (!(std::cin >> filename)) {
-                    std::cin.clear();
-                    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-                    std::cout << "Invalid filename. Please enter a valid filename." << std::endl;
+                string filename;
+                cout << "Enter the filename to save to: ";
+                if (!(cin >> filename)) {
+                    cin.clear();
+                    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                    cout << "Invalid filename. Please enter a valid filename." << endl;
                     continue; // Restart the loop
                 }
                 try {
                     keeper.saveToFile(filename);
-                    std::cout << "Saved to " << filename << std::endl;
-                } catch (const std::runtime_error& e) {
-                    std::cerr << e.what() << std::endl;
+                    cout << "Saved to " << filename << endl;
+                } catch (const runtime_error& e) {
+                    cerr << e.what() << endl;
                 }
                 break;
             }
             case 6: {
                 // Load from file
-                std::cout << "Enter the filename to load from: ";
-                if (!(std::cin >> filename)) {
-                    std::cin.clear();
-                    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-                    std::cout << "Invalid filename. Please enter a valid filename." << std::endl;
+                cout << "Enter the filename to load from: ";
+                if (!(cin >> filename)) {
+                    cin.clear();
+                    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                    cout << "Invalid filename. Please enter a valid filename." << endl;
                     continue; // Restart the loop
                 }
                 try {
                     keeper.loadFromFile(filename);
-                    std::cout << "Loaded from " << filename << std::endl;
-                } catch (const std::runtime_error& e) {
-                    std::cerr << e.what() << std::endl;
+                    cout << "Loaded from " << filename << endl;
+                } catch (const runtime_error& e) {
+                    cerr << e.what() << endl;
                 }
                 break;
             }
             case 7: {
+                cout << "Enter the indexes of the ships." << endl;
+                int index1, index2;
+                if (!(cin >> index1)) {
+                    cin.clear();
+                    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                    cout << "Invalid index. Please enter a number." << endl;
+                    continue; // Restart the loop
+                }
+                if (!(cin >> index2)) {
+                    cin.clear();
+                    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                    cout << "Invalid index. Please enter a number." << endl;
+                    continue; // Restart the loop
+                }
+                keeper.compare(index1, index2);
+                break;
+            }
+            case 8: {
                 return;
             }
             default: {
-                std::cout << "Invalid choice. Please try again." << std::endl;
+                cout << "Invalid choice. Please try again." << endl;
             }
         }
     }
